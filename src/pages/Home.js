@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { getCategories } from '../services/api';
 
-export default class Home extends Component {
-  state = {
-    list: [],
+class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      list: [],
+      categories: [],
+    };
+  }
+
+  async componentDidMount() {
+    const mlApi = await getCategories();
+    console.log(mlApi);
+    this.setState({ categories: mlApi });
   }
 
   render() {
-    const { list } = this.state;
+    const { list, categories } = this.state;
     return (
       <div>
         <input
@@ -37,7 +48,15 @@ export default class Home extends Component {
           </p>
         ) : (
           console.log('A lista não está vazia')) }
+        <aside>
+          { categories.map((category) => (
+            <button type="button" data-testid="category" key={ category.id }>
+              { category.name }
+            </button>
+          ))}
+        </aside>
       </div>
     );
   }
 }
+export default Home;
