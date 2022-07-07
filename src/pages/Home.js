@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Message from '../components/Message';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 
 class Home extends Component {
@@ -31,6 +31,23 @@ class Home extends Component {
             value="Pesquisar"
           />
         </label>
+        <Link
+          to="/Cart"
+        >
+          <input
+            type="button"
+            data-testid="shopping-cart-button"
+            value="carrinho"
+          />
+
+        </Link>
+
+        { list.length === 0 ? (
+          <p data-testid="home-initial-message">
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </p>
+        ) : (
+          console.log('A lista não está vazia')) }
         <aside>
           { categories.map((category) => (
             <button type="button" data-testid="category" key={ category.id }>
@@ -38,9 +55,6 @@ class Home extends Component {
             </button>
           ))}
         </aside>
-        { list.length === 0
-          ? <Message />
-          : console.log('A lista não está vazia') }
       </div>
     );
   }
