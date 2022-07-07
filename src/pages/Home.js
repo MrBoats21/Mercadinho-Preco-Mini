@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Message from '../components/Message';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   state = {
@@ -20,10 +20,23 @@ export default class Home extends Component {
             value="Pesquisar"
           />
         </label>
+        <Link
+          to="/Cart"
+        >
+          <input
+            type="button"
+            data-testid="shopping-cart-button"
+            value="carrinho"
+          />
 
-        { list.length === 0
-          ? <Message />
-          : console.log('A lista não está vazia') }
+        </Link>
+
+        { list.length === 0 ? (
+          <p data-testid="home-initial-message">
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </p>
+        ) : (
+          console.log('A lista não está vazia')) }
       </div>
     );
   }
