@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import Message from '../components/Message';
+import { getCategories } from '../services/api';
 
-export default class Home extends Component {
-  state = {
-    list: [],
+class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      list: [],
+      categories: [],
+    };
+  }
+
+  async componentDidMount() {
+    const mlApi = await getCategories();
+    console.log(mlApi);
+    this.setState({ categories: mlApi });
   }
 
   render() {
-    const { list } = this.state;
+    const { list, categories } = this.state;
     return (
       <div>
         <input
@@ -20,7 +31,13 @@ export default class Home extends Component {
             value="Pesquisar"
           />
         </label>
-
+        <aside>
+          { categories.map((category) => (
+            <button type="button" data-testid="category" key={ category.id }>
+              { category.name }
+            </button>
+          ))}
+        </aside>
         { list.length === 0
           ? <Message />
           : console.log('A lista não está vazia') }
@@ -28,3 +45,4 @@ export default class Home extends Component {
     );
   }
 }
+export default Home;
