@@ -33,7 +33,7 @@ export default class Cart extends Component {
           products.map((item, index) => (
             <div key={ index }>
               <h3 data-testid="shopping-cart-product-name">{item.title}</h3>
-              <p>{index}</p>
+              <p data-testid="shopping-cart-product-quantity">1</p>
             </div>
           ))) }
       </div>
