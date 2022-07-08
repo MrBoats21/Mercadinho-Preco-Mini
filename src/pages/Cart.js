@@ -9,6 +9,10 @@ export default class Cart extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getProductFromStorage();
+  }
+
   getProductFromStorage() {
     const storage = sessionStorage;
     const productList = JSON.parse(storage.getItem('productList'));
@@ -28,7 +32,8 @@ export default class Cart extends Component {
         ) : (
           products.map((item, index) => (
             <div key={ index }>
-              {item.title}
+              <h3 data-testid="shopping-cart-product-name">{item.title}</h3>
+              <p>{index}</p>
             </div>
           ))) }
       </div>
