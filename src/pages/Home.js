@@ -40,7 +40,6 @@ class Home extends Component {
   async buttonClick() {
     const { search } = this.state;
     const products = await getProductsFromCategoryAndQuery(search, 'q');
-    // console.log(products.results);
     const { results } = products;
     this.setState({ list: results });
     console.log(results);
