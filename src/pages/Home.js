@@ -14,6 +14,7 @@ class Home extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
+    this.handleCategories = this.handleCategories.bind(this);
   }
 
   async componentDidMount() {
@@ -26,6 +27,14 @@ class Home extends Component {
     const { value } = target;
     this.setState({ search: value });
     this.setState({ notFound: '' });
+  }
+
+  async handleCategories({ target }) {
+    const { value } = target;
+    const products = await getProductsFromCategoryAndQuery(value, 'q');
+    console.log(products.results);
+    const { results } = products;
+    this.setState({ list: results });
   }
 
   async buttonClick() {
@@ -71,7 +80,13 @@ class Home extends Component {
         </Link>
         <aside>
           { categories.map((category) => (
-            <button type="button" data-testid="category" key={ category.id }>
+            <button
+              type="button"
+              data-testid="category"
+              key={ category.id }
+              onClick={ this.handleCategories }
+              value={ category }
+            >
               { category.name }
             </button>
           ))}
