@@ -84,7 +84,7 @@ class Home extends Component {
               data-testid="category"
               key={ category.id }
               onClick={ this.handleCategories }
-              value={ category }
+              value={ category.name }
             >
               { category.name }
             </button>
@@ -94,11 +94,17 @@ class Home extends Component {
           <div>
             <h2>{notFound}</h2>
             {list.map((item, index) => (
-              <div key={ index } data-testid="product">
-                <h2>{item.title}</h2>
-                <img src={ item.thumbnail } alt="Product" />
-                <p>{`${item.price} R$`}</p>
-              </div>
+              <Link
+                key={ index }
+                to={ `/details/${item.title}` }
+                data-testid="product-detail-link"
+              >
+                <div key={ index } data-testid="product">
+                  <h2>{item.title}</h2>
+                  <img src={ item.thumbnail } alt="Product" />
+                  <p>{`${item.price} R$`}</p>
+                </div>
+              </Link>
             ))}
           </div>
         ) : (
