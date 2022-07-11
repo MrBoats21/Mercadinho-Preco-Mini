@@ -10,11 +10,14 @@ class Home extends Component {
       categories: [],
       search: '',
       notFound: '',
+      product: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
     this.handleCategories = this.handleCategories.bind(this);
+    this.saveOnStorage = this.saveOnStorage.bind(this);
+    this.getProduct = this.getProduct.bind(this);
   }
 
   async componentDidMount() {
@@ -37,6 +40,13 @@ class Home extends Component {
     this.setState({ list: results });
   }
 
+  async getProduct(id) {
+    const product = await getProductsFromCategoryAndQuery(id, 'q');
+    console.log(localStorage);
+    const productDetails = product.results.find((item) => item.title === id);
+    this.setState({ product: productDetails });
+  }
+
   async buttonClick() {
     const { search } = this.state;
     const products = await getProductsFromCategoryAndQuery(search, 'q');
@@ -45,6 +55,28 @@ class Home extends Component {
     console.log(results);
     if (results.length === 0) {
       this.setState({ notFound: 'Nenhum produto foi encontrado' });
+    }
+  }
+
+  async saveOnStorage({ target }) {
+    // let counter = 0;
+    const { name } = target;
+    await this.getProduct(name);
+    const { product } = this.state;
+    const storage = sessionStorage;
+    const intitial = JSON.parse(storage.getItem('productList'));
+    // console.log(array);
+    let array = [intitial];
+    console.log(product);
+    if (intitial === undefined || intitial === null) {
+      array = [product];
+      storage.setItem('productList', JSON.stringify(array));
+    } else {
+      for (let index = 0; index < intitial.length; index += 1) {
+        array[index] = intitial[index];
+      }
+      array.push(product);
+      storage.setItem('productList', JSON.stringify(array));
     }
   }
 
@@ -103,6 +135,20 @@ class Home extends Component {
                   <h2>{item.title}</h2>
                   <img src={ item.thumbnail } alt="Product" />
                   <p>{`${item.price} R$`}</p>
+                  <div>
+                    <Link
+                      to="/Cart"
+                    >
+                      <button
+                        type="button"
+                        data-testid="product-add-to-cart"
+                        onClick={ this.saveOnStorage }
+                        name={ item.title }
+                      >
+                        Adicionar ao carrinho
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </Link>
             ))}
