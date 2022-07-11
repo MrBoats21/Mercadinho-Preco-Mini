@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Quantidade from '../Components/Quantidade';
 export default class Cart extends Component {
   constructor() {
     super();
@@ -16,9 +16,12 @@ export default class Cart extends Component {
   getProductFromStorage() {
     const storage = sessionStorage;
     const productList = JSON.parse(storage.getItem('productList'));
-    this.setState({
-      products: productList,
-    });
+    if (productList) {
+      this.setState({
+        products: productList,
+        // productsQuantities: [],
+      });
+    }
   }
 
   render() {
@@ -33,7 +36,7 @@ export default class Cart extends Component {
           products.map((item, index) => (
             <div key={ index }>
               <h3 data-testid="shopping-cart-product-name">{item.title}</h3>
-              <p data-testid="shopping-cart-product-quantity">1</p>
+              <Quantidade />
             </div>
           ))) }
       </div>
