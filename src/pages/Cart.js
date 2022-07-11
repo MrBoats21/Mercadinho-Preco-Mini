@@ -6,7 +6,6 @@ export default class Cart extends Component {
 
     this.state = {
       products: [],
-      product: {},
     };
   }
 
@@ -21,26 +20,6 @@ export default class Cart extends Component {
       this.setState({
         products: productList,
       });
-    }
-  }
-
-  saveOnStorage = () => {
-    // let counter = 0;
-    const { product } = this.state;
-    const storage = sessionStorage;
-    const intitial = JSON.parse(storage.getItem('productList'));
-    // console.log(array);
-    let array = [intitial];
-    if (intitial === undefined || intitial === null) {
-      console.log(product);
-      array = [product];
-      storage.setItem('productList', JSON.stringify(array));
-    } else {
-      for (let index = 0; index < intitial.length; index += 1) {
-        array[index] = intitial[index];
-      }
-      array.push(product);
-      storage.setItem('productList', JSON.stringify(array));
     }
   }
 

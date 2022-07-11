@@ -21,7 +21,6 @@ class Home extends Component {
 
   async componentDidMount() {
     const mlApi = await getCategories();
-    console.log(mlApi);
     this.setState({ categories: mlApi });
   }
 
@@ -34,39 +33,27 @@ class Home extends Component {
   async handleCategories({ target }) {
     const { value } = target;
     const products = await getProductsFromCategoryAndQuery(value, 'q');
-    console.log(products.results);
     const { results } = products;
     this.setState({ list: results });
   }
-
-  // async getProduct(id) {
-  //   const product = await getProductsFromCategoryAndQuery(id, 'q');
-  //   console.log(localStorage);
-  //   const productDetails = product.results.find((item) => item.title === id);
-  //   this.setState({ product: productDetails });
-  // }
 
   async buttonClick() {
     const { search } = this.state;
     const products = await getProductsFromCategoryAndQuery(search, 'q');
     const { results } = products;
     this.setState({ list: results });
-    console.log(results);
     if (results.length === 0) {
       this.setState({ notFound: 'Nenhum produto foi encontrado' });
     }
   }
 
   async saveOnStorage({ target }) {
-    // let counter = 0;
     const { name } = target;
     const product = await getProductsFromCategoryAndQuery(name, 'q');
     const productDetails = product.results.find((item) => item.title === name);
     const storage = sessionStorage;
     const intitial = JSON.parse(storage.getItem('productList'));
-    // console.log(array);
     let array = [intitial];
-    console.log(productDetails);
     if (intitial === undefined || intitial === null) {
       array = [productDetails];
       storage.setItem('productList', JSON.stringify(array));
