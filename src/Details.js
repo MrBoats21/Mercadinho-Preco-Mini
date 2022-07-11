@@ -37,7 +37,6 @@ class Details extends React.Component {
     // console.log(array);
     let array = [intitial];
     if (intitial === undefined || intitial === null) {
-      console.log(product);
       array = [product];
       storage.setItem('productList', JSON.stringify(array));
     } else {
@@ -63,18 +62,23 @@ class Details extends React.Component {
           />
 
         </Link>
+
         <h1 data-testid="product-detail-name">{product.title}</h1>
         <img src={ product.thumbnail } alt="Product" />
         <p>{`${product.price} R$`}</p>
         <p>{`Quantidade disponível: ${product.available_quantity}`}</p>
         <p>{`Código do produto: ${product.id}`}</p>
-        <button
-          type="button"
-          data-testid="product-detail-add-to-cart"
-          onClick={ this.saveOnStorage }
+        <Link
+          to="/Cart"
         >
-          Adicionar ao carrinho
-        </button>
+          <button
+            type="button"
+            data-testid="product-detail-add-to-cart"
+            onClick={ this.saveOnStorage }
+          >
+            Adicionar ao carrinho
+          </button>
+        </Link>
       </div>
     );
   }

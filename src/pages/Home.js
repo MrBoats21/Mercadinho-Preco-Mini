@@ -15,11 +15,12 @@ class Home extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
     this.handleCategories = this.handleCategories.bind(this);
+    this.saveOnStorage = this.saveOnStorage.bind(this);
+    // this.getProduct = this.getProduct.bind(this);
   }
 
   async componentDidMount() {
     const mlApi = await getCategories();
-    console.log(mlApi);
     this.setState({ categories: mlApi });
   }
 
@@ -32,7 +33,6 @@ class Home extends Component {
   async handleCategories({ target }) {
     const { value } = target;
     const products = await getProductsFromCategoryAndQuery(value, 'q');
-    console.log(products.results);
     const { results } = products;
     this.setState({ list: results });
   }
@@ -42,9 +42,27 @@ class Home extends Component {
     const products = await getProductsFromCategoryAndQuery(search, 'q');
     const { results } = products;
     this.setState({ list: results });
-    console.log(results);
     if (results.length === 0) {
       this.setState({ notFound: 'Nenhum produto foi encontrado' });
+    }
+  }
+
+  async saveOnStorage({ target }) {
+    const { name } = target;
+    const product = await getProductsFromCategoryAndQuery(name, 'q');
+    const productDetails = product.results.find((item) => item.title === name);
+    const storage = sessionStorage;
+    const intitial = JSON.parse(storage.getItem('productList'));
+    let array = [intitial];
+    if (intitial === undefined || intitial === null) {
+      array = [productDetails];
+      storage.setItem('productList', JSON.stringify(array));
+    } else {
+      for (let index = 0; index < intitial.length; index += 1) {
+        array[index] = intitial[index];
+      }
+      array.push(productDetails);
+      storage.setItem('productList', JSON.stringify(array));
     }
   }
 
@@ -94,17 +112,29 @@ class Home extends Component {
           <div>
             <h2>{notFound}</h2>
             {list.map((item, index) => (
-              <Link
-                key={ index }
-                to={ `/details/${item.title}` }
-                data-testid="product-detail-link"
-              >
-                <div key={ index } data-testid="product">
-                  <h2>{item.title}</h2>
-                  <img src={ item.thumbnail } alt="Product" />
-                  <p>{`${item.price} R$`}</p>
+              <>
+                <Link
+                  key={ index }
+                  to={ `/details/${item.title}` }
+                  data-testid="product-detail-link"
+                >
+                  <div key={ index } data-testid="product">
+                    <h2>{item.title}</h2>
+                    <img src={ item.thumbnail } alt="Product" />
+                    <p>{`${item.price} R$`}</p>
+                  </div>
+                </Link>
+                <div>
+                  <button
+                    type="button"
+                    data-testid="product-add-to-cart"
+                    onClick={ this.saveOnStorage }
+                    name={ item.title }
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
-              </Link>
+              </>
             ))}
           </div>
         ) : (

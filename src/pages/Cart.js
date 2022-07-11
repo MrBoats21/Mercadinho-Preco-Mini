@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Quantidade from '../Components/Quantidade';
+
 export default class Cart extends Component {
   constructor() {
     super();
@@ -36,6 +37,10 @@ export default class Cart extends Component {
           products.map((item, index) => (
             <div key={ index }>
               <h3 data-testid="shopping-cart-product-name">{item.title}</h3>
+              <img src={ item.thumbnail } alt="Product" />
+              <p>{`${item.price} R$`}</p>
+              <p>{`Quantidade disponível: ${item.available_quantity}`}</p>
+              <p data-testid="shopping-cart-product-quantity">1</p>
               <Quantidade />
             </div>
           ))) }
