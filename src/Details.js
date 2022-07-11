@@ -37,7 +37,6 @@ class Details extends React.Component {
     // console.log(array);
     let array = [intitial];
     if (intitial === undefined || intitial === null) {
-      console.log(product);
       array = [product];
       storage.setItem('productList', JSON.stringify(array));
     } else {
