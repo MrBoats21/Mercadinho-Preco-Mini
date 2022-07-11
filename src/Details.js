@@ -12,6 +12,7 @@ class Details extends React.Component {
     };
 
     this.getProduct = this.getProduct.bind(this);
+    this.saveOnStorage = this.saveOnStorage.bind(this);
   }
 
   componentDidMount() {
@@ -23,9 +24,29 @@ class Details extends React.Component {
     const { params } = match;
     const { id } = params;
     const product = await getProductsFromCategoryAndQuery(id, 'q');
-    console.log(product.results[0]);
+    console.log(localStorage);
     const productDetails = product.results.find((item) => item.title === id);
     this.setState({ product: productDetails });
+  }
+
+  saveOnStorage() {
+    // let counter = 0;
+    const { product } = this.state;
+    const storage = sessionStorage;
+    const intitial = JSON.parse(storage.getItem('productList'));
+    // console.log(array);
+    let array = [intitial];
+    if (intitial === undefined || intitial === null) {
+      console.log(product);
+      array = [product];
+      storage.setItem('productList', JSON.stringify(array));
+    } else {
+      for (let index = 0; index < intitial.length; index += 1) {
+        array[index] = intitial[index];
+      }
+      array.push(product);
+      storage.setItem('productList', JSON.stringify(array));
+    }
   }
 
   render() {
@@ -47,6 +68,13 @@ class Details extends React.Component {
         <p>{`${product.price} R$`}</p>
         <p>{`Quantidade disponível: ${product.available_quantity}`}</p>
         <p>{`Código do produto: ${product.id}`}</p>
+        <button
+          type="button"
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.saveOnStorage }
+        >
+          Adicionar ao carrinho
+        </button>
       </div>
     );
   }
