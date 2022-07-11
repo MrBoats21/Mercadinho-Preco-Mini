@@ -17,9 +17,11 @@ export default class Cart extends Component {
   getProductFromStorage() {
     const storage = sessionStorage;
     const productList = JSON.parse(storage.getItem('productList'));
-    this.setState({
-      products: productList,
-    });
+    if (productList) {
+      this.setState({
+        products: productList,
+      });
+    }
   }
 
   saveOnStorage = () => {

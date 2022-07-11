@@ -10,14 +10,13 @@ class Home extends Component {
       categories: [],
       search: '',
       notFound: '',
-      product: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
     this.handleCategories = this.handleCategories.bind(this);
     this.saveOnStorage = this.saveOnStorage.bind(this);
-    this.getProduct = this.getProduct.bind(this);
+    // this.getProduct = this.getProduct.bind(this);
   }
 
   async componentDidMount() {
@@ -40,12 +39,12 @@ class Home extends Component {
     this.setState({ list: results });
   }
 
-  async getProduct(id) {
-    const product = await getProductsFromCategoryAndQuery(id, 'q');
-    console.log(localStorage);
-    const productDetails = product.results.find((item) => item.title === id);
-    this.setState({ product: productDetails });
-  }
+  // async getProduct(id) {
+  //   const product = await getProductsFromCategoryAndQuery(id, 'q');
+  //   console.log(localStorage);
+  //   const productDetails = product.results.find((item) => item.title === id);
+  //   this.setState({ product: productDetails });
+  // }
 
   async buttonClick() {
     const { search } = this.state;
@@ -61,21 +60,21 @@ class Home extends Component {
   async saveOnStorage({ target }) {
     // let counter = 0;
     const { name } = target;
-    await this.getProduct(name);
-    const { product } = this.state;
+    const product = await getProductsFromCategoryAndQuery(name, 'q');
+    const productDetails = product.results.find((item) => item.title === name);
     const storage = sessionStorage;
     const intitial = JSON.parse(storage.getItem('productList'));
     // console.log(array);
     let array = [intitial];
-    console.log(product);
+    console.log(productDetails);
     if (intitial === undefined || intitial === null) {
-      array = [product];
+      array = [productDetails];
       storage.setItem('productList', JSON.stringify(array));
     } else {
       for (let index = 0; index < intitial.length; index += 1) {
         array[index] = intitial[index];
       }
-      array.push(product);
+      array.push(productDetails);
       storage.setItem('productList', JSON.stringify(array));
     }
   }
@@ -126,31 +125,29 @@ class Home extends Component {
           <div>
             <h2>{notFound}</h2>
             {list.map((item, index) => (
-              <Link
-                key={ index }
-                to={ `/details/${item.title}` }
-                data-testid="product-detail-link"
-              >
-                <div key={ index } data-testid="product">
-                  <h2>{item.title}</h2>
-                  <img src={ item.thumbnail } alt="Product" />
-                  <p>{`${item.price} R$`}</p>
-                  <div>
-                    <Link
-                      to="/Cart"
-                    >
-                      <button
-                        type="button"
-                        data-testid="product-add-to-cart"
-                        onClick={ this.saveOnStorage }
-                        name={ item.title }
-                      >
-                        Adicionar ao carrinho
-                      </button>
-                    </Link>
+              <>
+                <Link
+                  key={ index }
+                  to={ `/details/${item.title}` }
+                  data-testid="product-detail-link"
+                >
+                  <div key={ index } data-testid="product">
+                    <h2>{item.title}</h2>
+                    <img src={ item.thumbnail } alt="Product" />
+                    <p>{`${item.price} R$`}</p>
                   </div>
+                </Link>
+                <div>
+                  <button
+                    type="button"
+                    data-testid="product-add-to-cart"
+                    onClick={ this.saveOnStorage }
+                    name={ item.title }
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
-              </Link>
+              </>
             ))}
           </div>
         ) : (
