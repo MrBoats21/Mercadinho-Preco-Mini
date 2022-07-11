@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Quantidade from '../Components/Quantidade';
 
 export default class Cart extends Component {
   constructor() {
@@ -19,6 +20,7 @@ export default class Cart extends Component {
     if (productList) {
       this.setState({
         products: productList,
+        // productsQuantities: [],
       });
     }
   }
@@ -39,6 +41,7 @@ export default class Cart extends Component {
               <p>{`${item.price} R$`}</p>
               <p>{`Quantidade disponível: ${item.available_quantity}`}</p>
               <p data-testid="shopping-cart-product-quantity">1</p>
+              <Quantidade />
             </div>
           ))) }
       </div>
