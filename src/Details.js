@@ -54,10 +54,10 @@ class Details extends React.Component {
       <div>
         <Link
           to="/Cart"
+          data-testid="shopping-cart-button"
         >
           <input
             type="button"
-            data-testid="shopping-cart-button"
             value="carrinho"
           />
 

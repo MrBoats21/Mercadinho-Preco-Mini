@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Quantidade from '../Components/Quantidade';
 
-export default class Cart extends Component {
+class Cart extends Component {
   constructor() {
     super();
 
@@ -20,13 +20,14 @@ export default class Cart extends Component {
     if (productList) {
       this.setState({
         products: productList,
-        // productsQuantities: [],
+      // productsQuantities: [],
       });
     }
   }
 
   render() {
     const { products } = this.state;
+    console.log(products);
     return (
       <div>
         { products.length === 0 ? (
@@ -40,7 +41,7 @@ export default class Cart extends Component {
               <img src={ item.thumbnail } alt="Product" />
               <p>{`${item.price} R$`}</p>
               <p>{`Quantidade disponível: ${item.available_quantity}`}</p>
-              <p data-testid="shopping-cart-product-quantity">1</p>
+              {/* <p data-testid="shopping-cart-product-quantity">1</p> */}
               <Quantidade />
             </div>
           ))) }
@@ -48,3 +49,5 @@ export default class Cart extends Component {
     );
   }
 }
+
+export default Cart;
