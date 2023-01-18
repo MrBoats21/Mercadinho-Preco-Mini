@@ -35,13 +35,14 @@ class Cart extends Component {
             Seu carrinho está vazio
           </p>
         ) : (
-          products.map((item, index) => (
-            <div key={ index }>
-              <h3 data-testid="shopping-cart-product-name">{item.title}</h3>
+          products.map((item) => (
+            <div key={ item.id }>
+              <div data-testid="shopping-cart-product-name">
+                <h3>{item.title}</h3>
+              </div>
               <img src={ item.thumbnail } alt="Product" />
               <p>{`${item.price} R$`}</p>
               <p>{`Quantidade disponível: ${item.available_quantity}`}</p>
-              {/* <p data-testid="shopping-cart-product-quantity">1</p> */}
               <Quantidade />
             </div>
           ))) }
