@@ -2,7 +2,7 @@
 
 Projeto ainda em desenvolvimento!
 
-Esse projeto foi desenvolvido durante o curso da trybe a fim de praticar as habilidades com react.js, hooks e estado de componentes.
+Esse projeto foi desenvolvido durante o curso da trybe a fim de praticar as habilidades com react.js.
 
 Instalação:  
 
