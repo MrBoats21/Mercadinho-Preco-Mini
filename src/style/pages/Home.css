@@ -1,0 +1,10 @@
+.category-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.category-btn {
+  margin: 4px;
+  padding: 6px;
+}

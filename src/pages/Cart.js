@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Quantidade from '../Components/Quantidade';
+import { Link } from 'react-router-dom';
+import '../style/index.css'
+
 
 class Cart extends Component {
   constructor() {
@@ -20,24 +23,31 @@ class Cart extends Component {
     if (productList) {
       this.setState({
         products: productList,
-      // productsQuantities: [],
       });
     }
   }
 
   render() {
     const { products } = this.state;
-    console.log(products);
     return (
       <div>
+        <div class="header">
+          <h1>Mercado Preço Mini</h1>
+          <Link to="/" className='home-link'>Voltar</Link>
+        </div>
+
+        { products.length !== 0 && (
+          <button>
+            Finalizar compra
+          </button>
+        )}
+
         { products.length === 0 ? (
-          <p data-testid="shopping-cart-empty-message">
-            Seu carrinho está vazio
-          </p>
+          <p>Seu carrinho está vazio</p>
         ) : (
           products.map((item) => (
-            <div key={ item.id }>
-              <div data-testid="shopping-cart-product-name">
+            <div key={ item.id } className='cart-product-card'>
+              <div>
                 <h3>{item.title}</h3>
               </div>
               <img src={ item.thumbnail } alt="Product" />
@@ -46,6 +56,7 @@ class Cart extends Component {
               <Quantidade />
             </div>
           ))) }
+
       </div>
     );
   }

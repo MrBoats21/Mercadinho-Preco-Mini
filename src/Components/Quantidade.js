@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../style/Quantidade.css'
 
 class Quantidade extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class Quantidade extends Component {
   render() {
     const { disable, quantity } = this.state;
     return (
-      <div>
+      <div className='qty-controller'>
 
         <button
           onClick={ this.increase }

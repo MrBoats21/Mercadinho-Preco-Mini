@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import '../style/index.css'
+import '../style/pages/Home.css'
 
 class Home extends Component {
   constructor() {
@@ -16,7 +18,6 @@ class Home extends Component {
     this.buttonClick = this.buttonClick.bind(this);
     this.handleCategories = this.handleCategories.bind(this);
     this.saveOnStorage = this.saveOnStorage.bind(this);
-    // this.getProduct = this.getProduct.bind(this);
   }
 
   async componentDidMount() {
@@ -69,79 +70,89 @@ class Home extends Component {
   render() {
     const { list, categories, search, notFound } = this.state;
     return (
-      <div>
-        <input
-          type="text"
-          placeholder="Pesquisar"
-          data-testid="query-input"
-          value={ search }
-          onChange={ this.handleChange }
-        />
-        <label htmlFor="search">
-          <input
-            type="button"
-            value="Pesquisar"
-            onClick={ this.buttonClick }
-            data-testid="query-button"
-          />
-        </label>
-        <Link
-          to="/Cart"
-        >
-          <input
-            type="button"
-            data-testid="shopping-cart-button"
-            value="carrinho"
-          />
-
-        </Link>
-        <aside>
-          { categories.map((category) => (
-            <button
+      <div className='full-page'>
+        <div className="header">
+          <h1>Mercado Preço Mini</h1>
+          <Link
+            to="/Cart"
+            className='cart-link'
+          >
+            <input
               type="button"
-              data-testid="category"
-              key={ category.id }
-              onClick={ this.handleCategories }
-              value={ category.name }
-            >
-              { category.name }
-            </button>
-          ))}
-        </aside>
-        { list ? (
-          <div>
-            <h2>{notFound}</h2>
-            {list.map((item, index) => (
-              <>
-                <Link
-                  key={ index }
-                  to={ `/details/${item.title}` }
-                  data-testid="product-detail-link"
+              data-testid="shopping-cart-button"
+              value="carrinho"
+            />
+          </Link>
+        </div>
+        <div>
+          <input
+            type="text"
+            placeholder="Pesquisar"
+            data-testid="query-input"
+            value={ search }
+            onChange={ this.handleChange }
+          />
+          <label htmlFor="search">
+            <input
+              type="button"
+              value="Pesquisar"
+              onClick={ this.buttonClick }
+              data-testid="query-button"
+            />
+          </label>
+
+          <aside>
+            <h2>Categorias</h2>
+            <div className='category-list'>
+              { categories.map((category) => (
+                <button
+                  className="category-btn"
+                  type="button"
+                  data-testid="category"
+                  key={ category.id }
+                  onClick={ this.handleCategories }
+                  value={ category.name }
                 >
-                  <div key={ index } data-testid="product">
-                    <h2>{item.title}</h2>
-                    <img src={ item.thumbnail } alt="Product" />
-                    <p>{`${item.price} R$`}</p>
-                  </div>
-                </Link>
-                <div>
-                  <button
-                    type="button"
-                    data-testid="product-add-to-cart"
-                    onClick={ this.saveOnStorage }
-                    name={ item.title }
+                  { category.name }
+                </button>
+              ))}
+            </div>
+          </aside>
+          { list ? (
+            <div>
+              <h2>{notFound}</h2>
+              {list.map((item, index) => (
+                <>
+                  <Link
+                    key={ index }
+                    to={ `/details/${item.title}` }
+                    data-testid="product-detail-link"
                   >
-                    Adicionar ao carrinho
-                  </button>
-                </div>
-              </>
-            ))}
-          </div>
-        ) : (
-          <p data-testid="home-initial-message">
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </p>
-        ) }
+                    <div key={ index } data-testid="product">
+                      <h2>{item.title}</h2>
+                      <img src={ item.thumbnail } alt="Product" />
+                      <p>{`${item.price} R$`}</p>
+                    </div>
+                  </Link>
+                  <div>
+                    <button
+                      type="button"
+                      data-testid="product-add-to-cart"
+                      onClick={ this.saveOnStorage }
+                      name={ item.title }
+                    >
+                      Adicionar ao carrinho
+                    </button>
+                  </div>
+                </>
+              ))}
+            </div>
+          ) : (
+            <p data-testid="home-initial-message">
+              Digite algum termo de pesquisa ou escolha uma categoria.
+            </p>
+          ) }
+        </div>
       </div>
     );
   }

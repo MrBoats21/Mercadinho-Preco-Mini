@@ -30,11 +30,9 @@ class Details extends React.Component {
   }
 
   saveOnStorage() {
-    // let counter = 0;
     const { product } = this.state;
     const storage = sessionStorage;
     const intitial = JSON.parse(storage.getItem('productList'));
-    // console.log(array);
     let array = [intitial];
     if (intitial === undefined || intitial === null) {
       array = [product];
