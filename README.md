@@ -1,4 +1,4 @@
-<h1>Front-End Online Store</h1>
+<h1>Mercadinho Preço Mini</h1>
 
 Projeto ainda em desenvolvimento! Falta estilização.
 
