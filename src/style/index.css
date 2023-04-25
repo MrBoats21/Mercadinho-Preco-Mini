@@ -1,10 +1,20 @@
 * {
   margin: 0;
   padding: 0;
+  transition: 0.2s;
+}
+
+body {
+  /* stylelint-disable */
+  font-family: 'Raleway' , sans-serif;
+  /* stylelint-enable */
 }
 
 .header {
   align-items: center;
   background-color: burlywood;
   display: flex;
+  /* stylelint-disable */
+  font-family: 'Courgette' , cursive;
+  /* stylelint-enable */
 }
